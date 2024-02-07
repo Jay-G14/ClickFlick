@@ -26,7 +26,6 @@ Also, once flask is set up, just run run.sh in the directory.
 
 Assumption:
 
--First run the server, then open the main file
 -Login page is in home page
 -Images can be uploaded by drag and drop as well as selected and multiple images are suppoerted
 -There is checkbox on the top corner of the photos which allows user to order the photos for the video
@@ -43,4 +42,4 @@ Assumption:
 -We are assuming the flask server is up and running and the exchange token is done
 -Download and resolution button will be made functional later
 -For now, only admin pages work. Login and register will be implemented later on. Security protocols must be observed.
--username: user and password: 1234 is the only account available rn
+
