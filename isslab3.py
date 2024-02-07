@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template_string, request, redirect, url_for, session, render_template
+from flask import Flask, render_template_string, request, redirect, url_for, session, render_template 
 from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
@@ -11,13 +11,13 @@ if not os.path.exists('users.txt'):
     with open('users.txt', 'w'):
         pass
 
-@app.route('/main')
-def main():
-    return render_template('http://127.0.0.1:3000/main.html')
+# @app.route('/main')
+# def main():
+#     return render_template('main.html')
 
-@app.route('/hardcode')
-def hardcode():
-    return render_template('http://127.0.0.1:3000/hardcode.html')
+# @app.route('/hardcore')
+# def hardcode():
+#     return app.send_static_file('hardcore.html')
 
     
 @app.route('/')  #home page route
@@ -127,9 +127,10 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         if email == 'admin' and password == 'admin':
-            return redirect(url_for('admin'))
-        if email=="user" and password=="1234":
-            return redirect(url_for('hardcode'))
+            return redirect('http://127.0.0.1:3000/main.html')
+        elif email == 'user' and password == '1234':
+            return redirect('http://127.0.0.1:3000/static/hardcore.html')
+
         with open('users.txt', 'r') as infile:
             users = infile.readlines()
             for user_json in users:
