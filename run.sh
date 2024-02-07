@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+# python3 -m http.server 8000 &
+
 # Activate the virtual environment
 source venv/bin/activate
 export SECRET_KEY='qeervrvpnmakswplrj562mcrorl104k5n'

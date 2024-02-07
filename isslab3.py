@@ -13,11 +13,11 @@ if not os.path.exists('users.txt'):
 
 @app.route('/main')
 def main():
-    return render_template('http://127.0.0.1:3000/main.html')
+    return render_template('main.html')
 
 @app.route('/hardcode')
 def hardcode():
-    return render_template('http://127.0.0.1:3000/hardcode.html')
+    return render_template('hardcore.html')
 
     
 @app.route('/')  #home page route
