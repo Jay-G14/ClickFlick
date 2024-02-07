@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template_string, request, redirect, url_for, session, render_template
+from flask import Flask, render_template_string, send_from_directory, request, redirect, url_for, session, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 
@@ -19,6 +19,15 @@ def main():
 def hardcode():
     return render_template('hardcore.html')
 
+@app.route('/video')
+def video():
+    return render_template('video.html')
+
+@app.route('/t2mp4')
+def t2mp4():
+    video_path = 't2.mp4'
+    directory = 'templates' 
+    return send_from_directory(directory, video_path)
     
 @app.route('/')  #home page route
 def home():
