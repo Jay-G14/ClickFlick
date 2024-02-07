@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>User Administration</h1>
+
+  <table id="userTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <!-- Add more columns as needed -->
+      </tr>10111
+    <tbody>
+      <!-- User data will be displayed here -->
+    </tbody>
+  </table>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Assuming you have a server-side script to fetch user data
+      fetchUsers();
+
+      function fetchUsers() {
+        // Simulating a fetch request to a server-side script
+        // You should replace this with an actual server-side endpoint
+        fetch('get_users.php') // Replace with your server-side script URL
+          .then(response => response.json())
+          .then(users => {
+            displayUsers(users);
+          })
+          .catch(error => {
+            console.error('Error fetching users:', error);
+          });
+      }
+
+      function displayUsers(users) {
+        var userTableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+
+        // Clear existing table rows
+        userTableBody.innerHTML = '';
+
+        // Iterate through each user and create a table row
+        users.forEach(function (user) {
+          var row = userTableBody.insertRow();
+
+          var idCell = row.insertCell(0);
+          idCell.textContent = user.id;
+
+          var nameCell = row.insertCell(1);
+          nameCell.textContent = user.name;
+
+          var emailCell = row.insertCell(2);
+          emailCell.textContent = user.email;
+
+          // Add more cells as needed based on your user data
+        });
+      }
+    });
+  </script>
+
+</body>
+
+</html>
