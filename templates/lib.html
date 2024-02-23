@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Music Library</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    #music-selection-form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #music-selection-form input[type="file"] {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #music-selection-form button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #music-selection-form button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Music Library</h1>
+  <!-- Music selection form -->
+  <form id="music-selection-form">
+    <input type="file" id="music-file-input" accept="audio/*">
+    <button type="submit">Upload Music</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Add event listener for the music selection form
+      document.getElementById('music-selection-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get the selected music file
+        var musicFile = document.getElementById('music-file-input').files[0];
+
+        // Check if a file is selected
+        if (musicFile) {
+          // Create a FormData object and append the selected file
+          var formData = new FormData();
+          formData.append('musicFile', musicFile);
+
+          // Send the FormData object to the main page
+          parent.postMessage({ type: 'musicSelected', musicFile: musicFile }, '*');
+
+          // Optionally, you can redirect back to the main page
+          window.location.href = 'main.html';
+        } else {
+          alert('Please select a music file.');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

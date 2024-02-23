@@ -1,8 +1,6 @@
-{"name": "njp", "email": "njp", "password": "scrypt:32768:8:1$5I440gQ9MKamuzFx$590a8199af1a05a4e8ec6e45def9803d70c857e9ddbbf8d3fa31d81adda1b0c133cb9998b04a7246f173dbd0ff7d41aaef8f39098d143a1bad1394027c38eed9"}
-{"name": "hello", "email": "hi", "password": "scrypt:32768:8:1$9uysNhXpLAXI8CyS$2af900a44f744925f6956f05eeb4f606cd2fa3202edfe291ccc240ca1e4f69a9c16a0028affd26704367c6d66e3f638c01218ca9595994968ed4d99f05d4f9b5"}
-{"name": "hello", "email": "hello", "password": "scrypt:32768:8:1$a6iMN76RP5h9yci1$347e120f916b8a1d94e18eabfa543b906946f08cb2fd1a1c65ffa65f8c2f1a50014fd0b67ac484726ce41caaa81cd4b24d3d771af8a72b0d697e74ee84a677b7"}
-{"name": "sparsh", "email": "sparsh", "password": "scrypt:32768:8:1$RhC8vDkABLSnqxlP$db77dfd8bd4f64b17cc0b6d89e78ab3f77880f9e9780e5590c0c9618ff7e5c00c90d77adf401383c5532a30cc9974c38d44f9c0a89c16e32f57d8050d610628d", "token": "nBeUs_c_yppyZ5sThvIE0w"}
-{"name": "tomar", "email": "tomar", "password": "scrypt:32768:8:1$8SAXpTzveBCnzzXm$15e8fa74e8428d1810381d686277ce080e976e7b094c5331982290074ffefffef5919f6bf40f2f259cfdc326ddf482f0798859dbfe585a97ddb97b53660ec5c3"}
-{"name": "admin", "email": "admin", "password": "scrypt:32768:8:1$vvN0N0OGvZyzySFV$637a5ce0e0d25fa15002968e8f402c6fc4c57d5925145366a1fa66e1efc5d5fd8dc4aef01a60ea6eb7b0a40611759c041c99aca62141e559961de01c5d1fe9d8"}
-
-
+{"name": "spar", "email": "spar", "password": "scrypt:32768:8:1$vWyH429ZdLIvGyU3$9f9a7de499456c9a200842b4ce26207157f2ffbe077cf47a7aa412eb13e2ac93441fc36d629eb2a5e9222789fe7e64813671edfdf20d730eadc7c2bd15106313"}
+{"name": "hi", "email": "hi", "password": "scrypt:32768:8:1$ZT0aCjyagiP0IhQp$bdbb6e17fb4c40e095ef2ca1d4e1dbc802aa87f5d509526a1176a7e60c0df3e2f4ce32eee32cf8e9e80037b12da81436c1b87fdf21c10e9b8afb0d48bb82f500"}
+{"name": "re", "email": "ta", "password": "scrypt:32768:8:1$8K5Q6F7h0mS09zKh$a5afcb6173e1274f3a3b6e4fdc845ff9028e88553d902e41d78892e3d44dd81e21c9c09ea02c8d0c3187995be233f0a38362f7a093ec60af45b2ff2dd6ad0173"}
+{"name": "jay", "email": "jay@d.com", "password": "scrypt:32768:8:1$prRGyVSEpZ9Zjnyp$69b664f9e16928fce554132b61dfbe8dfcb50de40ea762a111ea92804b1071d41cf0e5d234996fb53ca7fddf52813ffef0b3c8a854397969903bd56301a71425"}
+{"name": "jzy", "email": "jzy@h.com", "password": "scrypt:32768:8:1$VS6Ws2bc2UAsX3Fr$d822d340c4462d146eefaaa3b296616e8a51b00cc01a29650bb2cc46591b3d75c4a5a66eb328f7a7ef1dd315dcfc94a5693f8ebdff3c6fac1e806859ffc1fc37"}
+{"name": "pok", "email": "pok@pok.com", "password": "scrypt:32768:8:1$hv63aXhQLC8nVlyh$7ae3c07cafa605403b00962f165bad3b1c8cf6cdbffbfca1a31416630062d91215ccda44a36c5bfc6c9c1b9f632a312cb5bc96f564ec49ef81f3788799c962e5"}

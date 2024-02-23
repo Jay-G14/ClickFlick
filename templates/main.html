@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html>
 
 <head>
@@ -22,483 +22,7 @@
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
-      background-color: rgba(255, 255, 255, 0.5);
-      z-index: 2;
-      margin-bottom: 50px;
-    }
-
-    .image-item {
-      margin: 5px;
-      position: relative;
-    }
-    #login-section {
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    background: #f8f9fa;
-    padding: 10px 0;
-    text-align: center;
-    z-index: 1;
-    text-align: left;
-    }
-
-    .image-container img {
-      width: 160px;
-      height: 160px;
-      object-fit: cover;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .highlight {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .add-button-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .add-button {
-      font-size: 24px;
-      cursor: pointer;
-      color: #555;
-      border: 2px solid #007bff;
-      border-radius: 5px;
-      padding: 10px 20px;
-      margin-top: 5px;
-      font-weight: bold;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .add-button:hover {
-      color: #000;
-      background-color: #007bff;
-      color: #fff;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .checkbox {
-      display: none;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .checkbox-label {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      width: 25px;
-      height: 25px;
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 25px;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .checkbox:checked+.checkbox-label {
-      background-color: #007bff;
-      color: #fff;
-    }
-
-    #file-input {
-      display: none;
-    }
-
-    .three-dot-button {
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      color: #333;
-      cursor: pointer;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .popup {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      z-index: 10;
-      background-color: rgba(255, 255, 255, 0.7);
-
-    }
-
-    .popup.show {
-      display: block;
-    }
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    #bgvid {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -100;
-        background-size: cover;
-    }
-
-    .popup-close {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      cursor: pointer;
-    }
-  </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var imageContainer = document.createElement('div');
-      imageContainer.classList.add('image-container');
-      document.body.appendChild(imageContainer);
-
-      var imageCounter = 1;
-      var maxNumber = 0;
-      var imageOrder = [];
-
-      document.body.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        document.body.classList.add('highlight');
-      });
-
-      document.body.addEventListener('dragleave', function () {
-        document.body.classList.remove('highlight');
-      });
-
-      document.body.addEventListener('drop', function (e) {
-        e.preventDefault();
-        document.body.classList.remove('highlight');
-
-        var files = e.dataTransfer.files;
-
-        handleFiles(files);
-      });
-
-      document.getElementById('file-input').addEventListener('change', function (e) {
-        var files = e.target.files;
-
-        handleFiles(files);
-      });
-
-      appendUploadButton();
-
-      function handleFiles(files) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          if (file.type.match('image.*')) {
-            var reader = new FileReader();
-
-            reader.onload = function (event) {
-              var img = new Image();
-              img.src = event.target.result;
-
-              var imageDiv = document.createElement('div');
-              imageDiv.classList.add('image-item');
-
-              imageDiv.appendChild(img);
-              imageContainer.appendChild(imageDiv);
-
-              addCheckbox(imageDiv);
-              addThreeDotButton(imageDiv); // Add three-dot button
-            };
-
-            reader.readAsDataURL(file);
-          } else {
-            alert('Please drop or select only image files.');
-          }
-        }
-
-        appendUploadButton();
-      }
-
-      function addCheckbox(item) {
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.classList.add('checkbox');
-        checkbox.id = 'checkbox-' + imageCounter;
-        checkbox.addEventListener('click', function (event) {
-          event.stopPropagation();
-          updateNumbering();
-          var index = Array.from(imageContainer.children).indexOf(item);
-          var selectedItems = document.querySelectorAll('.image-item .checkbox:checked');
-          if (checkbox.checked) {
-            if (selectedItems.length > 1) {
-              var lastSelectedItemIndex = Array.from(imageContainer.children).indexOf(selectedItems[selectedItems.length - 2].parentNode);
-              imageContainer.insertBefore(item, imageContainer.children[lastSelectedItemIndex + 1]);
-            } else {
-              imageContainer.insertBefore(item, imageContainer.firstChild);
-              updateNumbering();
-            }
-            imageOrder.splice(index, 0, imageOrder.splice(imageOrder.indexOf(index), 1)[0]);
-          } else {
-            imageContainer.appendChild(item);
-            imageOrder.push(imageOrder.splice(imageOrder.indexOf(index), 1)[0]);
-            updateNumbering();
-          }
-        });
-        item.appendChild(checkbox);
-
-        var label = document.createElement('label');
-        label.classList.add('checkbox-label');
-        label.setAttribute('for', 'checkbox-' + imageCounter);
-        item.appendChild(label);
-
-        item.addEventListener('click', function (event) {
-          var index = Array.from(imageContainer.children).indexOf(item);
-          if (checkbox.checked) {
-            imageContainer.removeChild(item);
-            imageContainer.insertBefore(item, imageContainer.firstChild);
-            imageOrder.unshift(imageOrder.splice(index, 1)[0]);
-            updateNumbering();
-          }
-          event.stopPropagation();
-        });
-
-        imageCounter++;
-      }
-
-      function addThreeDotButton(item) {
-        var threeDotButton = document.createElement('i');
-        threeDotButton.classList.add('fas', 'fa-ellipsis-v', 'three-dot-button');
-        item.appendChild(threeDotButton);
-
-        var popup = document.createElement('div');
-        popup.classList.add('popup');
-        var closeButton = document.createElement('i');
-        closeButton.classList.add('fas', 'fa-times', 'popup-close');
-        popup.appendChild(closeButton);
-        closeButton.addEventListener('click', function () {
-          popup.classList.remove('show');
-        });
-        popup.innerHTML += `
-          <label for="duration-input">Duration (seconds):</label>
-          <input type="number" id="duration-input" value="3" min="1">
-          <label for="transition-select">Transition:</label>
-          <select id="transition-select">
-            <option value="fade">Fade</option>
-            <option value="slide">Slide</option>
-            <option value="zoom">Zoom</option>
-          </select>
-        `;
-        item.appendChild(popup);
-
-        threeDotButton.addEventListener('click', function (event) {
-          event.stopPropagation();
-          popup.classList.toggle('show');
-        });
-
-        popup.addEventListener('click', function (event) {
-          event.stopPropagation(); // Prevent popup from closing on click
-        });
-
-        document.addEventListener('click', function () {
-          popup.classList.remove('show');
-        });
-
-        // Prevent clicking on image from closing popup
-        item.addEventListener('click', function (event) {
-          event.stopPropagation();
-        });
-      }
-
-      function updateNumbering() {
-        var checkboxes = document.querySelectorAll('.checkbox:checked');
-        var counter = 1;
-
-        checkboxes = Array.from(checkboxes).sort(function (a, b) {
-          var numberA = imageOrder.indexOf(Array.from(imageContainer.children).indexOf(a.parentElement));
-          var numberB = imageOrder.indexOf(Array.from(imageContainer.children).indexOf(b.parentElement));
-          return numberA - numberB;
-        });
-
-        checkboxes.forEach(function (checkbox) {
-          checkbox.nextElementSibling.textContent = counter++;
-        });
-
-        var uncheckedCheckboxes = document.querySelectorAll('.checkbox:not(:checked)');
-        uncheckedCheckboxes.forEach(function (checkbox) {
-          checkbox.nextElementSibling.textContent = "";
-        });
-      }
-
-      function appendUploadButton() {
-        var existingButtonContainer = document.querySelector('.add-button-container');
-        if (!existingButtonContainer) {
-          var addButtonContainer = document.createElement('div');
-          addButtonContainer.classList.add('add-button-container');
-          addButtonContainer.style.width = '100%';
-          addButtonContainer.style.display = 'flex';
-          addButtonContainer.style.justifyContent = 'center';
-          addButtonContainer.style.alignItems = 'center';
-          addButtonContainer.style.marginTop = '20px';
-          var uploadButton = document.createElement('button');
-          uploadButton.classList.add('add-button');
-          uploadButton.textContent = 'Upload Photos';
-          uploadButton.addEventListener('click', function () {
-            document.getElementById('file-input').click();
-          });
-          addButtonContainer.appendChild(uploadButton);
-          if (imageContainer.children.length > 0) {
-            imageContainer.appendChild(addButtonContainer);
-          } else {
-            imageContainer.insertBefore(addButtonContainer, imageContainer.firstChild);
-          }
-        }
-      }
-      var audioContainer;
-
-      var musicInput = null;
-      var audioContainer = null;
-
-      function appendUploadMusicButton() {
-        var uploadMusicButton = document.createElement('button');
-        uploadMusicButton.classList.add('add-button');
-        uploadMusicButton.textContent = 'Upload Music';
-        uploadMusicButton.addEventListener('click', function () {
-          if (!musicInput) {
-            // Create a hidden file input element
-            musicInput = document.createElement('input');
-            musicInput.type = 'file';
-            musicInput.accept = 'audio/*'; // Accept only audio files
-            musicInput.style.display = 'none';
-            document.body.appendChild(musicInput);
-
-            // Create a container for the audio elements
-            audioContainer = document.createElement('div');
-            audioContainer.style.position = 'absolute';
-            audioContainer.style.right = '0';
-            audioContainer.style.top = '0';
-            audioContainer.style.width = '30%'; // Adjust as needed
-            audioContainer.style.height = '100%';
-            audioContainer.style.overflowY = 'auto';
-            audioContainer.style.padding = '20px';
-            audioContainer.style.boxSizing = 'border-box';
-
-            // Append the audio container to the body
-            document.body.appendChild(audioContainer);
-
-            // Handle the change event on the file input
-            musicInput.addEventListener('change', function () {
-              var files = musicInput.files;
-              handleMusicFiles(files);
-            });
-          }
-
-          // Programmatically click the file input to open the file picker dialog
-          musicInput.click();
-        });
-
-        var convertToVideoButtonContainer = document.querySelector('.add-button-container');
-        convertToVideoButtonContainer.appendChild(uploadMusicButton);
-      }
-
-      function handleMusicFiles(files) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          if (file.type.startsWith('audio/')) {
-            // Create an audio element
-            var audio = document.createElement('audio');
-            audio.controls = true; // Show audio controls
-
-            // Create an object URL for the file
-            var url = URL.createObjectURL(file);
-
-            // Set the source of the audio element to the object URL
-            audio.src = url;
-
-            // Get the container for the "Upload Music" button
-            var uploadMusicButtonContainer = document.querySelector('.add-button-container');
-
-            // Append the audio element to the container
-            uploadMusicButtonContainer.appendChild(audio);
-          } else {
-            alert('Please select only music files.');
-          }
-        }
-      }
-
-      function appendConvertToVideoButton() {
-        var convertToVideoButtonContainer = document.createElement('div');
-        convertToVideoButtonContainer.classList.add('add-button-container');
-        convertToVideoButtonContainer.style.position = 'absolute';
-        convertToVideoButtonContainer.style.bottom = '20px';
-        convertToVideoButtonContainer.style.right = '20px';
-        var convertToVideoButton = document.createElement('button');
-        convertToVideoButton.classList.add('add-button');
-        convertToVideoButton.textContent = 'Convert to Video';
-        convertToVideoButton.addEventListener('click', function () {
-          alert("Convert to video functionality is not implemented yet.");
-        });
-        convertToVideoButtonContainer.appendChild(convertToVideoButton);
-        document.body.appendChild(convertToVideoButtonContainer);
-      }
-
-      appendUploadMusicButton();
-      appendConvertToVideoButton();
-    });
-  </script>
-</head>
-
-<body>
-  <input type="file" id="file-input" multiple>
-  <div id="login-section">
-        
-    
-    <p>Not logged in? <a href="http://127.0.0.1:5000/login">Login here</a>.</p>
-    <video playsinline autoplay muted loop id="bgvid">
-        <source src="/static/clockbg.mp4" type="video/mp4">
-    </video>
-</div>
-</body>
-
-</html>
-
- -->
-
-
- <!DOCTYPE HTML>
-<html>
-
-<head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    body,
-    html {
-      height: 100%;
-      margin: 0;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .image-container {
-      position: relative;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 20px;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(27, 40, 75, 0.5);
       z-index: 2;
     }
 
@@ -518,11 +42,9 @@
     }
 
     .add-button-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
     }
 
     .add-button {
@@ -590,20 +112,26 @@
     .popup.show {
       display: block;
     }
+
+    .user-info {
+            color: white; /* Set text color to white */
+        }
+
     body {
-        margin: 0;
-        padding: 0;
+      margin: 0;
+      padding: 0;
     }
+
     #bgvid {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -100;
-        background-size: cover;
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -100;
+      background-size: cover;
     }
 
     .popup-close {
@@ -612,17 +140,65 @@
       right: 5px;
       cursor: pointer;
     }
+
     #login-section {
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    background: #f8f9fa;
-    padding: 10px 0;
-    text-align: center;
-    z-index: 1;
-    text-align: left;
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      background: transparent;
+      opacity:0;
+      padding: 10px 0;
+      text-align: center;
+      z-index: 1;
+      text-align: left;
     }
 
+    /* Tooltip container */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    /* Tooltip text visibility */
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .audio-container {
+      margin-top: 20px;
+    }
+
+        .upload-button {
+            display: inline-block;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -661,33 +237,36 @@
       appendUploadButton();
 
       function handleFiles(files) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          if (file.type.match('image.*')) {
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        if (file.type.match('image.*')) {
             var reader = new FileReader();
 
             reader.onload = function (event) {
-              var img = new Image();
-              img.src = event.target.result;
+                var img = new Image();
+                img.src = event.target.result;
 
-              var imageDiv = document.createElement('div');
-              imageDiv.classList.add('image-item');
+                var imageDiv = document.createElement('div');
+                imageDiv.classList.add('image-item');
 
-              imageDiv.appendChild(img);
-              imageContainer.appendChild(imageDiv);
+                imageDiv.appendChild(img);
+                imageContainer.appendChild(imageDiv);
 
-              addCheckbox(imageDiv);
-              addThreeDotButton(imageDiv); // Add three-dot button
+                addCheckbox(imageDiv);
+                addThreeDotButton(imageDiv); // Add three-dot button
+
+                // Call your function here
+                yourFunction(); // Replace 'yourFunction()' with the name of your function
             };
 
             reader.readAsDataURL(file);
-          } else {
+        } else {
             alert('Please drop or select only image files.');
-          }
         }
+    }
 
-        appendUploadButton();
-      }
+    appendUploadButton();
+}
 
       function addCheckbox(item) {
         var checkbox = document.createElement('input');
@@ -794,81 +373,71 @@
       }
 
       function appendUploadButton() {
-        var existingButtonContainer = document.querySelector('.add-button-container');
-        if (!existingButtonContainer) {
-          var addButtonContainer = document.createElement('div');
-          addButtonContainer.classList.add('add-button-container');
-          addButtonContainer.style.width = '100%';
-          addButtonContainer.style.display = 'flex';
-          addButtonContainer.style.justifyContent = 'center';
-          addButtonContainer.style.alignItems = 'center';
-          addButtonContainer.style.marginTop = '20px';
-          var uploadButton = document.createElement('button');
-          uploadButton.classList.add('add-button');
-          uploadButton.textContent = 'Upload Photos';
-          uploadButton.addEventListener('click', function () {
+    var existingButtonContainer = document.querySelector('.add-button-container');
+    if (!existingButtonContainer) {
+        var addButtonContainer = document.createElement('div');
+        addButtonContainer.classList.add('add-button-container');
+
+        // Upload Photos Icon with Tooltip
+        var uploadPhotosIcon = document.createElement('div');
+        uploadPhotosIcon.classList.add('tooltip');
+        uploadPhotosIcon.innerHTML = '<i class="fas fa-camera add-button"></i><span class="tooltiptext">Upload Photos</span>';
+        addButtonContainer.appendChild(uploadPhotosIcon);
+        uploadPhotosIcon.addEventListener('click', function () {
             document.getElementById('file-input').click();
-          });
-          addButtonContainer.appendChild(uploadButton);
-          if (imageContainer.children.length > 0) {
-            imageContainer.appendChild(addButtonContainer);
-          } else {
-            imageContainer.insertBefore(addButtonContainer, imageContainer.firstChild);
-          }
-        }
-      }
+        });
 
-      var audioContainer;
+        // Convert to Video Icon with Tooltip
+        var convertToVideoIcon = document.createElement('div');
+        convertToVideoIcon.classList.add('tooltip');
+        convertToVideoIcon.innerHTML = '<i class="fas fa-film add-button"></i><span class="tooltiptext">Convert to Video</span>';
+        addButtonContainer.appendChild(convertToVideoIcon);
+        convertToVideoIcon.addEventListener('click', function () {
+            window.location.href = 'video'; // Redirect to video.html
+        });
 
-      var musicInput = null;
-      var audioContainer = null;
+        document.body.appendChild(addButtonContainer);
+    }
+}
 
-      function appendUploadMusicButton() {
-        var uploadMusicButton = document.createElement('button');
-        uploadMusicButton.classList.add('add-button');
-        uploadMusicButton.textContent = 'Upload Music';
-        uploadMusicButton.addEventListener('click', function () {
-          if (!musicInput) {
+var audioContainer;
+
+var musicInput = null;
+var audioContainer = null;
+
+function appendUploadMusicButton() {
+    var uploadMusicIcon = document.createElement('div');
+    uploadMusicIcon.classList.add('tooltip');
+    uploadMusicIcon.innerHTML = '<i class="fas fa-music add-button"></i><span class="tooltiptext">Upload Music</span>';
+    uploadMusicIcon.addEventListener('click', function () {
+        if (!musicInput) {
             // Create a hidden file input element
             musicInput = document.createElement('input');
             musicInput.type = 'file';
             musicInput.accept = 'audio/*'; // Accept only audio files
             musicInput.style.display = 'none';
+            musicInput.id = 'music-input';
             document.body.appendChild(musicInput);
-
-            // Create a container for the audio elements
-            audioContainer = document.createElement('div');
-            audioContainer.style.position = 'absolute';
-            audioContainer.style.right = '0';
-            audioContainer.style.top = '0';
-            audioContainer.style.width = '30%'; // Adjust as needed
-            audioContainer.style.height = '100%';
-            audioContainer.style.overflowY = 'auto';
-            audioContainer.style.padding = '20px';
-            audioContainer.style.boxSizing = 'border-box';
-
-            // Append the audio container to the body
-            document.body.appendChild(audioContainer);
 
             // Handle the change event on the file input
             musicInput.addEventListener('change', function () {
-              var files = musicInput.files;
-              handleMusicFiles(files);
+                var files = musicInput.files;
+                handleMusicFiles(files);
             });
-          }
+        }
 
-          // Programmatically click the file input to open the file picker dialog
-          musicInput.click();
-        });
+        // Programmatically click the file input to open the file picker dialog
+        musicInput.click();
+    });
 
-        var convertToVideoButtonContainer = document.querySelector('.add-button-container');
-        convertToVideoButtonContainer.appendChild(uploadMusicButton);
-      }
+    var addButtonContainer = document.querySelector('.add-button-container');
+    addButtonContainer.appendChild(uploadMusicIcon);
+}
 
-      function handleMusicFiles(files) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          if (file.type.startsWith('audio/')) {
+function handleMusicFiles(files) {
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        if (file.type.startsWith('audio/')) {
             // Create an audio element
             var audio = document.createElement('audio');
             audio.controls = true; // Show audio controls
@@ -879,50 +448,107 @@
             // Set the source of the audio element to the object URL
             audio.src = url;
 
-            // Get the container for the "Upload Music" button
-            var uploadMusicButtonContainer = document.querySelector('.add-button-container');
+            // Get the container for the audio elements
+            var audioContainer = document.createElement('div');
+            audioContainer.classList.add('audio-container');
+            audioContainer.appendChild(audio);
 
-            // Append the audio element to the container
-            uploadMusicButtonContainer.appendChild(audio);
-          } else {
+            // Append the audio container to the body
+            document.body.appendChild(audioContainer);
+        } else {
             alert('Please select only music files.');
-          }
-          
         }
-      }
+    }
+}
+
+appendUploadButton();
+appendUploadMusicButton();
+
 
       function appendConvertToVideoButton() {
-        var convertToVideoButtonContainer = document.createElement('div');
-        convertToVideoButtonContainer.classList.add('add-button-container');
-        convertToVideoButtonContainer.style.position = 'absolute';
-        convertToVideoButtonContainer.style.bottom = '20px';
-        convertToVideoButtonContainer.style.right = '20px';
-        var convertToVideoButton = document.createElement('button');
-        convertToVideoButton.classList.add('add-button');
-        convertToVideoButton.textContent = 'Convert to Video';
-        convertToVideoButton.addEventListener('click', function () {
-          window.location.href = 'video'; // Redirect to video.html
-        });
-        convertToVideoButtonContainer.appendChild(convertToVideoButton);
-        document.body.appendChild(convertToVideoButtonContainer);
+        var existingConvertToVideoButtonContainer = document.querySelector('.convert-to-video-button-container');
+        if (!existingConvertToVideoButtonContainer) {
+          var convertToVideoButtonContainer = document.createElement('div');
+          convertToVideoButtonContainer.classList.add('add-button-container', 'convert-to-video-button-container');
+          convertToVideoButtonContainer.style.position = 'absolute';
+          convertToVideoButtonContainer.style.bottom = '20px';
+          convertToVideoButtonContainer.style.right = '20px';
+          var convertToVideoButton = document.createElement('button');
+          convertToVideoButton.classList.add('add-button');
+          convertToVideoButton.textContent = 'Convert to Video';
+          convertToVideoButton.addEventListener('click', function () {
+            window.location.href = 'video'; // Redirect to video.html
+          });
+          convertToVideoButtonContainer.appendChild(convertToVideoButton);
+          document.body.appendChild(convertToVideoButtonContainer);
+        }
       }
+      
 
-      appendUploadMusicButton();
-      appendConvertToVideoButton();
     });
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    var form = event.target;
+    var formData = new FormData(form); // Create FormData object from form
+
+    // Add selected files from file input to FormData object
+    var files = document.getElementById('file-input').files;
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        formData.append('file', file);
+    }
+
+    // Perform Ajax request to submit form data
+    var xhr = new XMLHttpRequest();
+    xhr.open(form.method, form.action);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log('File(s) uploaded successfully');
+            // Optionally, redirect or show success message
+        } else {
+            console.error('File upload failed');
+            // Optionally, show error message
+        }
+    };
+    xhr.send(formData); // Send FormData object with files
+});
+
+function appendLibButton() {
+    var libButton = document.createElement('div');
+    libButton.classList.add('tooltip');
+    libButton.innerHTML = '<i class="fas fa-music add-button"></i><span class="tooltiptext">Open Library</span>';
+    libButton.addEventListener('click', function () {
+        window.location.href = 'lib.html'; // Redirect to lib.html
+    });
+
+    var addButtonContainer = document.querySelector('.add-button-container');
+    addButtonContainer.appendChild(libButton);
+}
+
+
   </script>
 </head>
 
 <body>
   <input type="file" id="file-input" multiple>
-  <div id="login-section">
-        
-    
-    <p>Not logged in? <a href="http://127.0.0.1:5000/login">Login here</a>.</p>
-  </div>
+
+  <!-- Background video -->
   <video playsinline autoplay muted loop id="bgvid">
     <source src="/static/clockbg.mp4" type="video/mp4">
-</video>
+  </video>
+
+  <!-- User information -->
+  <h1><span class="user-info">Welcome, {{ user_name }}</span></h1>
+  <p><span class="user-info">Your email:  {{ user_email }}</span></p>
+
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" multiple>
+    <button type="submit">Save</button>
+
+  </form>
+ 
+
+  
 </body>
 
 </html>
