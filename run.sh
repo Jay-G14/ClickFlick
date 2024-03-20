@@ -3,8 +3,7 @@
 
 # python3 -m http.server 8000 &
 
-export DATABASE_URL="postgresql://jayant_g_research_ii:Vx4MigMhwy5s5jVm3DJrpw@clickflick-995.jxf.cockroachlabs.cloud:26257/clickflick?sslmode=verify-full&sslrootcert=root.crt"
-
+export DATABASE_URL="postgresql://jayant_g_research_ii:Vx4MigMhwy5s5jVm3DJrpw@clickflick-995.jxf.cockroachlabs.cloud:26257/clickflick?sslmode=verify-full"
 # Activate the virtual environment
 source venv/bin/activate
 export SECRET_KEY='qeervrvpnmakswplrj562mcrorl104k5n'
