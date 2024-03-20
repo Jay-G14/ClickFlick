@@ -64,38 +64,10 @@
       color: #fff;
     }
 
-    .checkbox {
-      display: none;
-    }
-
-    .checkbox-label {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      width: 25px;
-      height: 25px;
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 25px;
-    }
-
-    .checkbox:checked+.checkbox-label {
-      background-color: #007bff;
-      color: #fff;
-    }
-
     #file-input {
       display: none;
     }
 
-    .three-dot-button {
-      position: absolute;
-      top: 5px;
-      left: 5px;
-      color: #333;
-      cursor: pointer;
-    }
 
     .popup {
       display: none;
@@ -114,8 +86,9 @@
     }
 
     .user-info {
-            color: white; /* Set text color to white */
-        }
+      color: white;
+      /* Set text color to white */
+    }
 
     body {
       margin: 0;
@@ -146,7 +119,7 @@
       bottom: 0;
       width: 100%;
       background: transparent;
-      opacity:0;
+      opacity: 0;
       padding: 10px 0;
       text-align: center;
       z-index: 1;
@@ -188,17 +161,17 @@
       margin-top: 20px;
     }
 
-        .upload-button {
-            display: inline-block;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            margin-top: 5px;
-            font-weight: bold;
-        }
+    .upload-button {
+      display: inline-block;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-top: 5px;
+      font-weight: bold;
+    }
   </style>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -230,325 +203,136 @@
 
       document.getElementById('file-input').addEventListener('change', function (e) {
         var files = e.target.files;
-
+// 
         handleFiles(files);
       });
 
       appendUploadButton();
 
       function handleFiles(files) {
-    for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        if (file.type.match('image.*')) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          if (file.type.match('image.*')) {
             var reader = new FileReader();
 
             reader.onload = function (event) {
-                var img = new Image();
-                img.src = event.target.result;
+              var img = new Image();
+              img.src = event.target.result;
 
-                var imageDiv = document.createElement('div');
-                imageDiv.classList.add('image-item');
+              var imageDiv = document.createElement('div');
+              imageDiv.classList.add('image-item');
 
-                imageDiv.appendChild(img);
-                imageContainer.appendChild(imageDiv);
+              imageDiv.appendChild(img);
+              imageContainer.appendChild(imageDiv);
 
-                addCheckbox(imageDiv);
-                addThreeDotButton(imageDiv); // Add three-dot button
-
-                // Call your function here
-                yourFunction(); // Replace 'yourFunction()' with the name of your function
             };
 
             reader.readAsDataURL(file);
-        } else {
-            alert('Please drop or select only image files.');
-        }
-    }
-
-    appendUploadButton();
-}
-
-      function addCheckbox(item) {
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.classList.add('checkbox');
-        checkbox.id = 'checkbox-' + imageCounter;
-        checkbox.addEventListener('click', function (event) {
-          event.stopPropagation();
-          updateNumbering();
-          var index = Array.from(imageContainer.children).indexOf(item);
-          var selectedItems = document.querySelectorAll('.image-item .checkbox:checked');
-          if (checkbox.checked) {
-            if (selectedItems.length > 1) {
-              var lastSelectedItemIndex = Array.from(imageContainer.children).indexOf(selectedItems[selectedItems.length - 2].parentNode);
-              imageContainer.insertBefore(item, imageContainer.children[lastSelectedItemIndex + 1]);
-            } else {
-              imageContainer.insertBefore(item, imageContainer.firstChild);
-              updateNumbering();
-            }
-            imageOrder.splice(index, 0, imageOrder.splice(imageOrder.indexOf(index), 1)[0]);
           } else {
-            imageContainer.appendChild(item);
-            imageOrder.push(imageOrder.splice(imageOrder.indexOf(index), 1)[0]);
-            updateNumbering();
+            alert('Please drop or select only image files.');
           }
-        });
-        item.appendChild(checkbox);
+        }
 
-        var label = document.createElement('label');
-        label.classList.add('checkbox-label');
-        label.setAttribute('for', 'checkbox-' + imageCounter);
-        item.appendChild(label);
-
-        item.addEventListener('click', function (event) {
-          var index = Array.from(imageContainer.children).indexOf(item);
-          if (checkbox.checked) {
-            imageContainer.removeChild(item);
-            imageContainer.insertBefore(item, imageContainer.firstChild);
-            imageOrder.unshift(imageOrder.splice(index, 1)[0]);
-            updateNumbering();
-          }
-          event.stopPropagation();
-        });
-
-        imageCounter++;
+        appendUploadButton();
       }
 
-      function addThreeDotButton(item) {
-        var threeDotButton = document.createElement('i');
-        threeDotButton.classList.add('fas', 'fa-ellipsis-v', 'three-dot-button');
-        item.appendChild(threeDotButton);
 
-        var popup = document.createElement('div');
-        popup.classList.add('popup');
-        popup.innerHTML += `
-          <label for="duration-input">Duration (seconds):</label>
-          <input type="number" id="duration-input" value="3" min="1">
-          <label for="transition-select">Transition:</label>
-          <select id="transition-select">
-            <option value="fade">Fade</option>
-            <option value="slide">Slide</option>
-            <option value="zoom">Zoom</option>
-          </select>
-        `;
-        item.appendChild(popup);
-
-        threeDotButton.addEventListener('click', function (event) {
-          event.stopPropagation();
-          popup.classList.toggle('show');
-        });
-
-        popup.addEventListener('click', function (event) {
-          event.stopPropagation(); // Prevent popup from closing on click
-        });
-
-        document.addEventListener('click', function () {
-          popup.classList.remove('show');
-        });
-
-        // Prevent clicking on image from closing popup
-        item.addEventListener('click', function (event) {
-          event.stopPropagation();
-        });
-      }
-
-      function updateNumbering() {
-        var checkboxes = document.querySelectorAll('.checkbox:checked');
-        var counter = 1;
-
-        checkboxes = Array.from(checkboxes).sort(function (a, b) {
-          var numberA = imageOrder.indexOf(Array.from(imageContainer.children).indexOf(a.parentElement));
-          var numberB = imageOrder.indexOf(Array.from(imageContainer.children).indexOf(b.parentElement));
-          return numberA - numberB;
-        });
-
-        checkboxes.forEach(function (checkbox) {
-          checkbox.nextElementSibling.textContent = counter++;
-        });
-
-        var uncheckedCheckboxes = document.querySelectorAll('.checkbox:not(:checked)');
-        uncheckedCheckboxes.forEach(function (checkbox) {
-          checkbox.nextElementSibling.textContent = "";
-        });
-      }
 
       function appendUploadButton() {
-    var existingButtonContainer = document.querySelector('.add-button-container');
-    if (!existingButtonContainer) {
-        var addButtonContainer = document.createElement('div');
-        addButtonContainer.classList.add('add-button-container');
+        var existingButtonContainer = document.querySelector('.add-button-container');
+        if (!existingButtonContainer) {
+          var addButtonContainer = document.createElement('div');
+          addButtonContainer.classList.add('add-button-container');
 
-        // Upload Photos Icon with Tooltip
-        var uploadPhotosIcon = document.createElement('div');
-        uploadPhotosIcon.classList.add('tooltip');
-        uploadPhotosIcon.innerHTML = '<i class="fas fa-camera add-button"></i><span class="tooltiptext">Upload Photos</span>';
-        addButtonContainer.appendChild(uploadPhotosIcon);
-        uploadPhotosIcon.addEventListener('click', function () {
+          // Upload Photos Icon with Tooltip
+          var uploadPhotosIcon = document.createElement('div');
+          uploadPhotosIcon.classList.add('tooltip');
+          uploadPhotosIcon.innerHTML = '<i class="fas fa-camera add-button"></i><span class="tooltiptext">Upload Photos</span>';
+          addButtonContainer.appendChild(uploadPhotosIcon);
+          uploadPhotosIcon.addEventListener('click', function () {
             document.getElementById('file-input').click();
-        });
-
-        // Convert to Video Icon with Tooltip
-        var convertToVideoIcon = document.createElement('div');
-        convertToVideoIcon.classList.add('tooltip');
-        convertToVideoIcon.innerHTML = '<i class="fas fa-film add-button"></i><span class="tooltiptext">Convert to Video</span>';
-        addButtonContainer.appendChild(convertToVideoIcon);
-        convertToVideoIcon.addEventListener('click', function () {
-            window.location.href = 'video'; // Redirect to video.html
-        });
-
-        document.body.appendChild(addButtonContainer);
-    }
-}
-
-var audioContainer;
-
-var musicInput = null;
-var audioContainer = null;
-
-function appendUploadMusicButton() {
-    var uploadMusicIcon = document.createElement('div');
-    uploadMusicIcon.classList.add('tooltip');
-    uploadMusicIcon.innerHTML = '<i class="fas fa-music add-button"></i><span class="tooltiptext">Upload Music</span>';
-    uploadMusicIcon.addEventListener('click', function () {
-        if (!musicInput) {
-            // Create a hidden file input element
-            musicInput = document.createElement('input');
-            musicInput.type = 'file';
-            musicInput.accept = 'audio/*'; // Accept only audio files
-            musicInput.style.display = 'none';
-            musicInput.id = 'music-input';
-            document.body.appendChild(musicInput);
-
-            // Handle the change event on the file input
-            musicInput.addEventListener('change', function () {
-                var files = musicInput.files;
-                handleMusicFiles(files);
-            });
-        }
-
-        // Programmatically click the file input to open the file picker dialog
-        musicInput.click();
-    });
-
-    var addButtonContainer = document.querySelector('.add-button-container');
-    addButtonContainer.appendChild(uploadMusicIcon);
-}
-
-function handleMusicFiles(files) {
-    for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        if (file.type.startsWith('audio/')) {
-            // Create an audio element
-            var audio = document.createElement('audio');
-            audio.controls = true; // Show audio controls
-
-            // Create an object URL for the file
-            var url = URL.createObjectURL(file);
-
-            // Set the source of the audio element to the object URL
-            audio.src = url;
-
-            // Get the container for the audio elements
-            var audioContainer = document.createElement('div');
-            audioContainer.classList.add('audio-container');
-            audioContainer.appendChild(audio);
-
-            // Append the audio container to the body
-            document.body.appendChild(audioContainer);
-        } else {
-            alert('Please select only music files.');
-        }
-    }
-}
-
-appendUploadButton();
-appendUploadMusicButton();
-
-
-      function appendConvertToVideoButton() {
-        var existingConvertToVideoButtonContainer = document.querySelector('.convert-to-video-button-container');
-        if (!existingConvertToVideoButtonContainer) {
-          var convertToVideoButtonContainer = document.createElement('div');
-          convertToVideoButtonContainer.classList.add('add-button-container', 'convert-to-video-button-container');
-          convertToVideoButtonContainer.style.position = 'absolute';
-          convertToVideoButtonContainer.style.bottom = '20px';
-          convertToVideoButtonContainer.style.right = '20px';
-          var convertToVideoButton = document.createElement('button');
-          convertToVideoButton.classList.add('add-button');
-          convertToVideoButton.textContent = 'Convert to Video';
-          convertToVideoButton.addEventListener('click', function () {
-            window.location.href = 'video'; // Redirect to video.html
           });
-          convertToVideoButtonContainer.appendChild(convertToVideoButton);
-          document.body.appendChild(convertToVideoButtonContainer);
+
+        
+
+          document.body.appendChild(addButtonContainer);
         }
       }
-      
+
+
+
+     
+      // appendUploadButton();
+     
+
 
     });
-    document.getElementById('upload-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-    var form = event.target;
-    var formData = new FormData(form); // Create FormData object from form
+    document.getElementById('upload-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent default form submission
+      var form = event.target;
+      var formData = new FormData(form); // Create FormData object from form
 
-    // Add selected files from file input to FormData object
-    var files = document.getElementById('file-input').files;
-    for (var i = 0; i < files.length; i++) {
+      // Add selected files from file input to FormData object
+      var files = document.getElementById('file-input').files;
+      for (var i = 0; i < files.length; i++) {
         var file = files[i];
         formData.append('file', file);
-    }
+      }
 
-    // Perform Ajax request to submit form data
-    var xhr = new XMLHttpRequest();
-    xhr.open(form.method, form.action);
-    xhr.onload = function() {
+      // Perform Ajax request to submit form data
+      var xhr = new XMLHttpRequest();
+      xhr.open(form.method, form.action);
+      xhr.onload = function () {
         if (xhr.status === 200) {
-            console.log('File(s) uploaded successfully');
-            // Optionally, redirect or show success message
+          console.log('File(s) uploaded successfully');
+          // Optionally, redirect or show success message
         } else {
-            console.error('File upload failed');
-            // Optionally, show error message
+          console.error('File upload failed');
+          // Optionally, show error message
         }
-    };
-    xhr.send(formData); // Send FormData object with files
-});
-
-function appendLibButton() {
-    var libButton = document.createElement('div');
-    libButton.classList.add('tooltip');
-    libButton.innerHTML = '<i class="fas fa-music add-button"></i><span class="tooltiptext">Open Library</span>';
-    libButton.addEventListener('click', function () {
-        window.location.href = 'lib.html'; // Redirect to lib.html
+      };
+      xhr.send(formData); // Send FormData object with files
     });
 
-    var addButtonContainer = document.querySelector('.add-button-container');
-    addButtonContainer.appendChild(libButton);
-}
+    function appendLibButton() {
+      var libButton = document.createElement('div');
+      libButton.classList.add('tooltip');
+      libButton.innerHTML = '<i class="fas fa-music add-button"></i><span class="tooltiptext">Open Library</span>';
+      libButton.addEventListener('click', function () {
+        window.location.href = 'lib.html'; // Redirect to lib.html
+      });
+
+      var addButtonContainer = document.querySelector('.add-button-container');
+      addButtonContainer.appendChild(libButton);
+    }
+
 
 
   </script>
 </head>
 
 <body>
-  <input type="file" id="file-input" multiple>
-
+  
   <!-- Background video -->
   <video playsinline autoplay muted loop id="bgvid">
     <source src="/static/clockbg.mp4" type="video/mp4">
   </video>
-
+  
   <!-- User information -->
   <h1><span class="user-info">Welcome, {{ user_name }}</span></h1>
-  <p><span class="user-info">Your email:  {{ user_email }}</span></p>
-
-  <form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" multiple>
-    <button type="submit">Save</button>
-
-  </form>
- 
-
+  <p><span class="user-info">Your email: {{ user_email }}</span></p>
   
+  
+  
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <!-- <input type="file" name="file" multiple> -->
+    <input type="file" id="file-input" name="file" multiple>
+    <button type="submit">Save</button>
+  </form>
+
+  <p style="color: aqua;">Click <a href="/displaymovie/highsize">here</a> to edit.</p>
+  <!-- <p>Click <a href="/displaymovie">here</a> to view the movie.</p> -->
+
 </body>
 
 </html>

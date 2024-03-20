@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Movie Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+        }
+
+        .imageCheckbox {
+            display: none;
+        }
+
+        .imageCheckbox + label img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .imageCheckbox:checked + label img {
+            border: 7px solid #45ae14;
+        }
+
+        select,
+        input[type="submit"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        form input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form id="movieForm" action="/displaymovie" method="post">
+        
+        <br>
+
+        <!-- Display images as checkboxes -->
+        {% for image in images %}
+            <div class="image-container">
+                <input type="checkbox" id="image{{ image.image_id }}" class="imageCheckbox" name="image_ids[]" value="{{ image.image_id }}" {% if image.include %} checked {% endif %}>
+                <label for="image{{ image.image_id }}">
+                    <img src="data:image/jpeg;base64,{{ image.data }}" alt="Image {{ loop.index }}">
+                </label>
+
+                <!-- Dropdowns for duration and transition -->
+                <label for="duration{{ image.image_id }}">Duration:</label>
+                <select id="duration{{ image.image_id }}" name="durations[]">
+                    <option value="1">1 second</option>
+                    <option value="2">2 seconds</option>
+                    <option value="3">3 seconds</option>
+                    <!-- Add more options as needed -->
+                </select>
+
+                <label for="transition{{ image.image_id }}">Transition:</label>
+                <select id="transition{{ image.image_id }}" name="transitions[]">
+                    <option value="1">Fade</option>
+                    <option value="2">Slide</option>
+                    <option value="3">Zoom</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+        {% endfor %}
+        <br>
+
+        <label for="music">Choose Music:</label>
+        <select id="music" name="music">
+            <option value="1">Music 1</option>
+            <option value="2">Music 2</option>
+            <!-- Add more music options as needed -->
+        </select>
+        <br>
+        
+        <label for="quality">Select Quality:</label>
+        <select id="quality" name="quality">
+            <option value="low">Low</option>
+            <option value="high">High</option>
+        </select>
+        <br>
+
+        <input type="submit" value="Display Movie">
+    </form>
+
+<script>
+    $(document).ready(function() {
+        // Listen for checkbox change event
+        $('.imageCheckbox').change(function() {
+            var imageId = $(this).val();  // Get the image ID
+            var include = $(this).prop('checked');  // Get the checked status
+            var duration = $('#duration' + imageId).val();  // Get the selected duration
+            var transition = $('#transition' + imageId).val();  // Get the selected transition
+
+            // Send an AJAX request to update image details
+            $.ajax({
+                url: '/toggle_include',
+                method: 'POST',
+                data: { 
+                    image_id: imageId, 
+                    include: include,
+                    duration: duration,
+                    transition: transition
+                },
+                success: function(response) {
+                    // Log success message to console
+                    console.log('Image details updated successfully:', response);
+                },
+                error: function(xhr, status, error) {
+                    // Log error message to console
+                    console.error('Error updating image details:', error);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
