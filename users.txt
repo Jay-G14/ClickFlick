@@ -33,3 +33,4 @@
 {"name": "loki", "email": "loki@gmail.com", "password": "scrypt:32768:8:1$uV7kmzjlMIDHqAcW$af59e1a056a529c775a0856269c18e780b4dfa8201b53fc3c84aa19ac8c01284b9f1af975e55571f167e94f29ef1b394f0e680c5357a7d0f6d0d3c9701c517dd"}
 {"name": "raiden", "email": "raiden@1.com", "password": "scrypt:32768:8:1$MWw0OEBnKz3Das9j$aa6fdb388ec6a9718b98164866a76a6614154f869f5bfd9d677d01cc0c7eb0d92245617e2d5b371a71006861201d721fbe899f1cdc5424e39eb37b1bd17a98a4"}
 {"name": "hy", "email": "hy@h.com", "password": "scrypt:32768:8:1$34yWNnBUiZnpzIum$010bdf64bcbb208dd11c076f29cd98b09cb947b78e87521fb1abf97df32a218d7c1d50a1bd78d2b2b7f1f9b18b649f6e71937fb02f340f8d5547ca03858307f5"}
+{"name": "dc", "email": "dc@dc.com", "password": "scrypt:32768:8:1$a1dRnLKXUIxGORK5$70b25c019720e627f4311291e6c54d79167a2c5d03817bf0a5c265b820ccae3f19ebcc306c6010c82d5f439e186622a846fafe9a0fe5c67247f55a8162e3fc83"}

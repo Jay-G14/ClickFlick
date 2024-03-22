@@ -218,7 +218,7 @@ def register():
                 users = infile.readlines()
                 for user_json in users:
                     existing_user_data = json.loads(user_json)
-                    if existing_user_data[1] == email:
+                    if existing_user_data['email'] == email:
                         return 'Email already registered.'
                     
 
