@@ -218,7 +218,7 @@ def register():
                 users = infile.readlines()
                 for user_json in users:
                     existing_user_data = json.loads(user_json)
-                    if existing_user_data['email'] == email:
+                    if existing_user_data[1] == email:
                         return 'Email already registered.'
                     
 
@@ -228,7 +228,7 @@ def register():
 
             # Generate JWT token upon successful registration
             token = generate_jwt_token(email)
-            print('x')
+            # print('x')
             session['token'] = token
 
             
