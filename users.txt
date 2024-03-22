@@ -28,3 +28,6 @@
 {"name": "god", "email": "god@appaji.com", "password": "scrypt:32768:8:1$fSsjtI5K9tNFfCez$cd391778b0de3454b6d31080dde16e437e7035520ffb1011adfe1ab01dc8a57e689e53bb7d6b755bd5a2424de635dd8aad4d49072c54e84df209139e3ead2713"}
 {"name": "manidhar", "email": "manidhar@gmail.com", "password": "scrypt:32768:8:1$Z8y5uel7n6cT1TFM$94eca584b4c8083c7a8340de6d7aa73fceca29b521e90618d31d8b24f54d0e61984165ed8e9fb579cbe342765ff15cc8f33ba171ddada16b917e2e707add50f7"}
 {"name": "pranav", "email": "pranav@sankar.com", "password": "scrypt:32768:8:1$8kwGw1N17QUUZZTT$80b4c61bd8459370910d7b1da39ec658e770d7d6ddc11e02d8ab5f47f4b264765d2820938bc898ab5b0a9bbeafdbf852d0aa6f0749d43d7a1ab59807f6623ddc"}
+{"name": "disco", "email": "disco@gmail.com", "password": "scrypt:32768:8:1$o6MCrXgN79zoKJxU$e5d8b6cb568b70d24bb637d52ae70c9ab03834097dd9533a09c3a5e6e460de2181120d23dfc7ca9c74a91ca9a324509e16dad17d479822194d80ae6b6ea44f44"}
+{"name": "srk", "email": "srk@gmail.com", "password": "scrypt:32768:8:1$PwRl8wNKx2z7dkFs$42a66fc384026e045f3c261d12b5d236a5a75a9a5a351addfab535adb12430620e3839561ff26d7ecbde408841212dbdb94aab3d0b1e0d51ef635cede21d45d6"}
+{"name": "loki", "email": "loki@gmail.com", "password": "scrypt:32768:8:1$uV7kmzjlMIDHqAcW$af59e1a056a529c775a0856269c18e780b4dfa8201b53fc3c84aa19ac8c01284b9f1af975e55571f167e94f29ef1b394f0e680c5357a7d0f6d0d3c9701c517dd"}
