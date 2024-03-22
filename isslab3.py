@@ -204,7 +204,7 @@ def register():
             cursor = connection.cursor()
 
             # Insert user data into the database
-            cursor.execute("INSERT INTO users ( name, email, password) VALUES ( %s, %s, %s)",
+            cursor.execute("INSERT INTO users ( 1, 2, 3) VALUES ( %s, %s, %s)",
                            (name, email, hashed_password))
 
             # Commit the transaction
