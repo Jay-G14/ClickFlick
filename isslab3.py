@@ -228,7 +228,6 @@ def register():
 
             # Generate JWT token upon successful registration
             token = generate_jwt_token(email)
-            # print('x')
             session['token'] = token
 
             
@@ -764,5 +763,3 @@ def displaymovie():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
